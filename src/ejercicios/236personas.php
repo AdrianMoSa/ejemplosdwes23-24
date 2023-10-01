@@ -32,18 +32,7 @@ $personas['Rodolfina']=array(
 
 foreach ($personas as $persona=>$valor){
     echo "$persona<br>";
-    if(is_array($valor)) {
         foreach ($valor as $claveInterna => $valorInterno) {
-            if (is_array($valorInterno)) {
-                echo "La clave es: $claveInterna";
-                foreach ($valorInterno as $asignatura){
-                    echo "$asignatura";
-                }
-            }
             echo "$claveInterna ---------- $valorInterno <br>";
-
         }
-    }else{
-        echo "$valor";
-    }
 }
