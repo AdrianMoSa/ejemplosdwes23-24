@@ -3,15 +3,28 @@
 function gastosCompartidos(array $gastos):array{
 
     $pareja=sacarEtiquetas($gastos);
-    print_r($pareja);
-    return [];
+        foreach ($gastos as $valor){
+        foreach ($valor as $key => $value){
+            $pareja[$key]+=$value;
+        }
+    }
+
+
+        $totalUnitario = array_sum($pareja)/2;
+
+
+        foreach ($pareja as $clave=>$valor){
+            $pareja[$clave]-=$totalUnitario;
+        }
+
+    return $pareja;
 }
 function sacarEtiquetas(array $coleccion):array{
     $etiquetas = [];
     foreach ($coleccion as $pagos){
         foreach ($pagos as $clave=>$valor){
             if(!in_array($clave,$etiquetas)){
-                $etiquetas[]=$clave;
+                $etiquetas[$clave]=0;
             }
         }
     }
@@ -19,8 +32,3 @@ function sacarEtiquetas(array $coleccion):array{
     return $etiquetas;
 }
 
-$gastosCitas[0]=['Inma'=>200.45];
-$gastosCitas[1]=['Juan'=>10.15];
-$gastosCitas[2]=['Inma'=>315.45];
-
-gastosCompartidos($gastosCitas);
