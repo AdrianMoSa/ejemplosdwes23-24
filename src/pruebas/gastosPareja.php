@@ -2,7 +2,7 @@
 $titulo= "Calculo de gastos";
 include("plantilla/encabezado.php");
 
-$diapostivas=[
+$diapositivas=[
     [
         'titulo'=>'Primera diapositiva',
         'subtitulo'=>'Primera prueba de diapositivas',
