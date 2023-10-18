@@ -56,16 +56,26 @@ $productos = array(
     "Botella de Agua" => 0.50,
     "Malteada de Chocolate" => 5
 );
-function generarNumeroAleatorioTickets(int $numero): int
+function generarNumeroAleatorioTickets(int $numero, float $total): int
 {
     if ($numero === 1) {
         $aleatorio = random_int(1, 5);
     }
     else if ($numero === 2) {
-        $aleatorio = random_int(10, 20);
+
+        if($total<20){
+            $aleatorio=$total;
+        }else{
+            $aleatorio = random_int(10, 20);
+        }
     }
     else if ($numero === 3) {
-        $aleatorio = random_int(20, 70);
+        if($total<70){
+            $aleatorio=$total;
+        }
+        else {
+            $aleatorio = random_int(20, 70);
+        }
     }
     return $aleatorio;
 }
