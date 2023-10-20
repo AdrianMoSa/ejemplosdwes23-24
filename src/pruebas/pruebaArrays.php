@@ -1,6 +1,6 @@
 <?php
     $variable1 = [];
-
+    //para añadir a la ultima posicion es $arrayPrueba[]=$ticket
 
     print_r($variable1);
 

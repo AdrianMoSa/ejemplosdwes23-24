@@ -1,6 +1,6 @@
 <?php
 
-namespace Videoclub;
+namespace Clases\Soportes;
 
 class Cliente
 {
@@ -33,8 +33,16 @@ private int $maxAlquilerConcurrente;
     }
 
     public function getNumSoportesAlquilados(): int
-    {
+  {
         return $this->numSoportesAlquilados;
+    }
+    public function tieneAlquilado(Soporte $s): bool{
+        foreach ($soportesAlquilados as $soporte){
+            if($soportesAlquilados.isset($s)){
+                return true;
+            }
+        }
+        return false;
     }
 
 
