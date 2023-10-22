@@ -60,145 +60,125 @@ function generarNumeroAleatorioTickets(int $numero, float $total): int
 {
     if ($numero === 1) {
         $aleatorio = random_int(1, 5);
-    }
-    else if ($numero === 2) {
+    } else if ($numero === 2) {
 
-        if($total<20){
-            $aleatorio=$total;
-        }else{
+        if ($total >= 10 && $total <= 20) {
+            $aleatorio = $total;
+        } else {
             $aleatorio = random_int(10, 20);
         }
-    }
-    else if ($numero === 3) {
-        if($total<70){
-            $aleatorio=$total;
-        }
-        else {
+    } else if ($numero === 3) {
+        if ($total >= 20 && $total <= 70) {
+            $aleatorio = $total;
+        } else {
             $aleatorio = random_int(20, 70);
         }
     }
     return $aleatorio;
 }
 
-//Funciona
-function generarProductosDisponibles(int $valorTicket, array $productos): array{
-    $arrayProductos=[];
-    foreach ($productos as $producto=>$valor){
-        if($valor<=$valorTicket){
-            $arrayProductos[$producto]=$valor;
+function generarProductosDisponibles(int $valorTicket, array $productos): array
+{
+    $arrayProductos = [];
+    foreach ($productos as $producto => $valor) {
+        if ($valor <= $valorTicket) {
+            $arrayProductos[$producto] = $valor;
         }
     }
     return $arrayProductos;
 }
-function rellenarTickets(int $valorTicket, array $productos): array{
-    $total=0;
-    $ticket=[];
-    //echo "El valor del ticket es: $valorTicket<br>";
-    while($total<$valorTicket){
-        $productoAleatorio=array_rand($productos);
-        $precioProducto=$productos[$productoAleatorio];
-        if ($total+$precioProducto<=$valorTicket){
-            $ticket[]=array("producto"=>$productoAleatorio, "precio"=>$precioProducto);
-            $total+=$precioProducto;
+
+function rellenarTickets(int $valorTicket, array $productos): array
+{
+    $total = 0;
+    $ticket = [];
+    $contadorDeUnidades = [];
+    while ($total < $valorTicket) {
+        $productoAleatorio = array_rand($productos);
+        $precioProducto = $productos[$productoAleatorio];
+
+        if ($total + $precioProducto <= $valorTicket) {
+            if (!isset($ticket[$productoAleatorio])) {
+                $contadorDeUnidades[$productoAleatorio] = 1;
+            } else {
+                $contadorDeUnidades[$productoAleatorio]++;
+
+            }
+            $ticket[$productoAleatorio] = array("precio" => $precioProducto, "unidades" => $contadorDeUnidades[$productoAleatorio], "total" => $precioProducto * $contadorDeUnidades[$productoAleatorio]);
+            $total += $precioProducto;
         }
-    }
 
-    /*
-     foreach ($ticket as $producto){
-        echo "Producto :".$producto["producto"]." Precio:".$producto["precio"]."<br>";
     }
-
-    //print_r($ticket);*/
 
     return $ticket;
 }
 
-function esPosible($baremo, $valorTicket,$contadorRestante):bool{
-    $posible=true;
-    switch ($baremo){
+function esPosible($baremo, $valorTicket, $contadorRestante): bool
+{
+    $posible = true;
+    switch ($baremo) {
         case 2:
-            if($contadorRestante-$valorTicket<10) {
+            if ($contadorRestante - $valorTicket < 10) {
                 $posible = false;
+                return $posible;
             }
             break;
         case 3:
-            if($contadorRestante-$valorTicket<20) {
+            if ($contadorRestante - $valorTicket < 20) {
                 $posible = false;
+                return $posible;
             }
             break;
     }
     return $posible;
 
 }
+
 function generarTickets(int $total, int $baremo, array $productos): array
 {
 
     $contadorRestante = $total;
     $arrayTicket = [];
     for ($i = 1; $contadorRestante != 0; $i++) {
-       $valorTicket = generarNumeroAleatorioTickets($baremo);
-        $arrayProductosDisponibles=generarProductosDisponibles($valorTicket,$productos);
-        $ticket = rellenarTickets($valorTicket,$arrayProductosDisponibles);
-        if($contadorRestante-$valorTicket>=0){
-            if(esPosible($baremo, $valorTicket,$contadorRestante)){
-                $arrayTicket = $ticket;
-                $contadorRestante -= $valorTicket;
-            }
+        $valorTicket = generarNumeroAleatorioTickets($baremo, $contadorRestante);
+        $arrayProductosDisponibles = generarProductosDisponibles($valorTicket, $productos);
+        $ticket[] = array($valorTicket, rellenarTickets($valorTicket, $arrayProductosDisponibles));
+        if ($contadorRestante - $valorTicket >= 0) {
+            //if(esPosible($baremo, $valorTicket,$contadorRestante)){
+            $arrayTicket = $ticket;
+            $contadorRestante -= $valorTicket;
+            //}
         }
     }
-    //var_dump($arrayTicket);
-return $arrayTicket;
+
+    return $arrayTicket;
 }
 
 
-function mostrarTicket(array $tickets){
-$numero=1;
+function mostrarTicket(array $tickets)
+{
+    $numTicket = 1;
+    foreach ($tickets as $ticket) {
+        $ticketTotal = $ticket[0];
+        $ticketLineas = $ticket[1];
+        echo "El ticket numero $numTicket :<br>";
+        echo "\t Casa Paco <br>";
+        echo "Calle falsa 1,2,3<br>";
+        echo " Concepto &nbsp;&nbsp;&nbsp;&nbsp; Precio &nbsp;&nbsp;&nbsp;&nbsp; Unidades &nbsp;&nbsp;&nbsp;&nbsp; Valor total &nbsp;&nbsp;&nbsp;&nbsp;<br>";
+        echo "__________________________________________________________________________________________________________________________<br>";
+        foreach ($ticketLineas as $producto => $datosProducto) {
+            echo $producto . "&nbsp;&nbsp;&nbsp;&nbsp";
+            echo $datosProducto['precio'] . "&nbsp;&nbsp;&nbsp;&nbsp";
+            echo $datosProducto['unidades'] . "&nbsp;&nbsp;&nbsp;&nbsp";
+            echo $datosProducto['total'] . "&nbsp;&nbsp;&nbsp;&nbsp<br>";
+        }
+        echo "<br>";
+        echo "Precio total: " . $ticketTotal . "<br>";
+        $numTicket++;
+    }
 
-    /*foreach ($tickets as $indice=>$ticket){
-        echo "El ticket numero $indice :<br>";
-        foreach ($ticket as $producto=>$precio){
-            echo "el producto: $producto y su valor: $precio<br>";
-        }
-        echo "-----------------------";
-    }*/
-    /*foreach ($tickets as $ticket) {
-        echo "El ticket $numero:<br>";
-        $numero++;
-        foreach ($ticket as $producto) {
-            echo "Producto :" . $producto["producto"] . " Precio:" . $producto["precio"] . "<br>";
-        }
-        echo "-----------------------";
-    }*/
-    //var_dump($tickets);
 }
 
-$ticketsTotales=generarTickets($valorTotal,$baremoTickets,$productos);
-var_dump($ticketsTotales);
-
+$ticketsTotales = generarTickets($valorTotal, $baremoTickets, $productos);
 mostrarTicket($ticketsTotales);
-/*
-$pruebaArray= generarProductosDisponibles(generarNumeroAleatorioTickets($baremoTickets),$productos);
-print_r($pruebaArray);
 
-/*
-$numeroRandom = generarNumeroAleatorioTickets($baremoTickets);
-
-echo "el numero aleatorio es: $numeroRandom";
-/*
-
-
-//$valorBuscado = array_search(generarNumeroAleatorioTickets(1),$productos);
-
-/*Escoge un valor random del array
-$valorBuscado=array_rand($productos,1);
-echo $valorBuscado;
-echo "$productos[$valorBuscado]<br>";
-/*
-
-/* para imprimir todo el array.
-foreach ($productos as $producto=>$valor){
-    echo "el producto: $producto y su valor: $valor";
-}
-
-print_r(array_keys($productos));
-*/
