@@ -6,7 +6,7 @@ class Cliente
 {
 public string $nombre;
 private int $numero;
-private  array $soportesAlquilados;
+private  array $soportesAlquilados ;
 private int $numSoportesAlquilados;
 private int $maxAlquilerConcurrente;
 
@@ -34,16 +34,31 @@ private int $maxAlquilerConcurrente;
 
     public function getNumSoportesAlquilados(): int
   {
-        return $this->numSoportesAlquilados;
+        return count($this->soportesAlquilados);
     }
     public function tieneAlquilado(Soporte $s): bool{
-        foreach ($soportesAlquilados as $soporte){
-            if($soportesAlquilados.isset($s)){
-                return true;
+        if (array_key_exists($s, $this->soportesAlquilados)) {
+            return true;
+        }
+        return false;
+    }
+    public function alquilar(Soporte $s):bool{
+        if($this->tieneAlquilado($s)||$this->getNumSoportesAlquilados()>$this->maxAlquilerConcurrente){
+            return false;
+        }else {
+            $this->soportesAlquilados[] = $s;
+            $this->numSoportesAlquilados++;
+            return true;
+        }
+    }
+    //Falta borrar esa posición del array y restar
+    public function devolver (int $numSoporte):bool{
+        foreach($this->soportesAlquilados as $soporte=>$valor){
+            if($numSoporte==$soporte["numero"]){
+                $this->numSoportesAlquilados--;
+               return true;
             }
         }
         return false;
     }
-
-
 }
