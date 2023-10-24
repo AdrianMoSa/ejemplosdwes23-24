@@ -61,4 +61,14 @@ private int $maxAlquilerConcurrente;
         }
         return false;
     }
+    public function listarAlquileres():void{
+        echo "El cliente tiene un total de: ".$this->getNumSoportesAlquilados();
+        echo "<br>";
+        $arraySoportesAlquilados=$this->soportesAlquilados;
+        foreach ($arraySoportesAlquilados as $soporte=>$valor){
+            echo "El cliente tiene el $soporte con nombre: ".$soporte["nombre"];
+            echo "<br>";
+
+        }
+    }
 }
