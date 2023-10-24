@@ -48,6 +48,7 @@ private int $maxAlquilerConcurrente;
         }else {
             $this->soportesAlquilados[] = $s;
             $this->numSoportesAlquilados++;
+            echo "EL soporte está alquilado";
             return true;
         }
     }
@@ -56,6 +57,7 @@ private int $maxAlquilerConcurrente;
         foreach($this->soportesAlquilados as $soporte=>$valor){
             if($numSoporte==$soporte["numero"]){
                 $this->numSoportesAlquilados--;
+                echo "El soporte esta devuelto";
                return true;
             }
         }
@@ -68,6 +70,7 @@ private int $maxAlquilerConcurrente;
         foreach ($arraySoportesAlquilados as $soporte=>$valor){
             echo "El cliente tiene el $soporte con nombre: ".$soporte["nombre"];
             echo "<br>";
+
 
         }
     }
