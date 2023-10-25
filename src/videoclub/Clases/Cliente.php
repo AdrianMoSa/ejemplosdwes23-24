@@ -2,6 +2,7 @@
 
 namespace Clases\Soportes;
 
+
 class Cliente
 {
 public string $nombre;
