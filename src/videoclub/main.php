@@ -1,9 +1,13 @@
 <?php
+/*
 include_once "./Clases/Soportes/Soporte.php";
 include_once "./Clases/Soportes/CintaVideo.php";
 include_once "./Clases/Soportes/Dvd.php";
 include_once "./Clases/Soportes/Juego.php";
-
+*/
+spl_autoload_register(function ($clase){
+   require __DIR__."/".str_replace("\\","/",$clase).".php";
+});
 use Clases\Soportes\Soporte;
 use Clases\Soportes\Dvd;
 use Clases\Soportes\Juego;
