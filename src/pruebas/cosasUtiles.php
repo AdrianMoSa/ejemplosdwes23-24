@@ -1,0 +1,5 @@
+<?php
+const PI = 3.1416;
+const IVA = 0.21;
+
+echo PI, " ", IVA;
