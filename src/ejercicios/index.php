@@ -16,12 +16,19 @@ $sala1=inicializarSala($filas,$butacasPorFila);
 $filaDeLaSala=intval(count($sala1)/2);
 //print_r($sala1[$filaDeLaSala]);
 
-function asignarButacasFila(int $numButacas, array $fila):string{
+function asignarButacasFila(int $numButacas, array $fila):array{
+    $asientosReservas=$numButacas;
 if(comprobarHuecosLibres($numButacas,$fila)==true){
-
+    for ($i=0;$i<count($fila);$i++){
+        if($asientosReservas>0){
+            $fila[$i][2]==true;
+            $arrayAsientosOcupados[]=$fila[$i];
+            $asientosReservas--;
+        }
+    }
 }
 
-return "Hola";
+return $arrayAsientosOcupados;
 }
 
 function comprobarHuecosLibres ( int $numButacas, array $fila):bool{
@@ -36,7 +43,7 @@ function comprobarHuecosLibres ( int $numButacas, array $fila):bool{
     if($fila[$i][2]==false&&$asientosReservas>0){
         $i+1;
         $asientosReservas--;
-        echo "la fila ".$fila[$i][0]."con el asiento  ".$fila[$i][1]." Esta libre<br>";
+        //echo "la fila ".$fila[$i][0]."con el asiento  ".$fila[$i][1]." Esta libre<br>";
     }else if($asientosReservas==0) {
         $estaLibre=true;
     }
@@ -48,5 +55,18 @@ function comprobarHuecosLibres ( int $numButacas, array $fila):bool{
     return $estaLibre;
     //Coimprabar que haya el numero de butacas consecutivas libres
 }
+
+function mostrarAsientosOcupados(int $numbutacas, array $fila){
+    $fila1[]=asignarButacasFila($numbutacas,$fila);
+
+
+    foreach ($fila1 as $fila){
+        echo "La fila ". $fila[0][0]." tiene estos asientos ocupados: <br>";
+        foreach($fila as $filaCine){
+            echo $filaCine[1]."<br>";
+        }
+    }
+}
 //asignarButacasFila(4,$sala1[$filaDeLaSala]);
-echo comprobarHuecosLibres(4,$sala1[$filaDeLaSala]);
+//echo comprobarHuecosLibres(4,$sala1[$filaDeLaSala]);
+mostrarAsientosOcupados(4,$sala1[$filaDeLaSala]);
